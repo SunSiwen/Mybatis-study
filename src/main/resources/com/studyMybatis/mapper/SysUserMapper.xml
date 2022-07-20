@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTDMapper3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.studyMybatis.mapper.SysUserMapper">
+
+    <resultMap id="sysUserMap" type="com.studyMybatis.entity.SysUser">
+        <id property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPassword" column="user_password"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userinfo" column="user_info"/>
+        <result property="headImg" column="head_img" jdbcType="BLOB"/>
+        <result property="createTime" column="create_time "
+                jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="selectAll" resultType="SysUser">
+        select *
+        from sys_user
+    </select>
+
+    <!--    <select id="selectAll" resultType="com.studyMybatis.entity.SysUser">-->
+    <!--            select id,-->
+    <!--                   user_name     userName,-->
+    <!--                   user_password userPassword,-->
+    <!--                   user_email    userEmail,-->
+    <!--                   user_info     userinfo,-->
+    <!--                   head_img      headimg,-->
+    <!--                   create_time   createTime-->
+    <!--            from sys user-->
+    <!--    </select>-->
+
+    <select id="selectById" resultMap="sysUserMap">
+        select id,
+               user_name     userName,
+               user_password userPassword,
+               user_email    userEmail,
+               user_info     userInfo,
+               head_img      headImg,
+               create_time   createTime
+        from sys_user
+        where id = #{id}
+    </select>
+    <select id="selectSysRolesByUserid" resultType="com.studyMybatis.entity.SysRole">
+        select r.id,
+               r.role_name roleName,
+               r.enabled,
+               r.create by createBy,
+    r.create_time createTime
+        from sys_user u
+            inner join sys_user_role ur
+        on u.id = ur.user id
+            inner join sys_role r on ur.role id = r.id
+        where u.id = #{userid}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_user(user_name, user_password, user_email,
+                             user_info, head_img, create_time)
+        values (#{userName}, #{userPassword}, #{userEmail},
+                #{userInfo}, #{headImg, jdbcType=BLOB},
+                #{createTime, jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="updateById">
+        update sys_user
+        set user_name= #{userName},
+            user_password= #{userPassword},
+            user_email = #{userEmail},
+            user_info= #{userInfo},
+            head_img = #{headImg , jdbcType=BLOB},
+            create_time = #{createTime , jdbcType=TIMESTAMP}
+        where id = #{id}
+    </insert>
+
+
+    <delete id="deleteById">
+        delete
+        from sys_user
+        where id = #{id}
+    </delete>
+</mapper>
