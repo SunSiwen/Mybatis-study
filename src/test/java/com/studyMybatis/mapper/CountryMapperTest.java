@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.net.HttpCookie;
 import java.util.List;
 
 /**
